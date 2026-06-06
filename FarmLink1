@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLink — Digital Tools for Ethiopian Coffee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: #2d2d2d; background: #fefefe;
+            line-height: 1.5; -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        .navbar {
+            position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px); z-index: 100; padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: #1a3c2a; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo-dot { width: 10px; height: 10px; background: #3a9d68; border-radius: 50%; }
+        .nav-links { display: flex; list-style: none; gap: 28px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-size: 0.875rem; font-weight: 500; }
+        .nav-links a:hover { color: #1a3c2a; }
+        .nav-cta { background: #1a3c2a; color: #fff; padding: 8px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.85rem; }
+        .nav-cta:hover { background: #245e3e; }
+        .mobile-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+        .hero { padding: 140px 0 80px; text-align: center; background: #f9faf8; }
+        .hero-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; color: #5bbf82; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px; }
+        .hero h1 { font-size: 2.8rem; font-weight: 700; color: #1a3c2a; line-height: 1.2; max-width: 700px; margin: 0 auto 20px; }
+        .hero h1 span { color: #3a9d68; }
+        .hero p { font-size: 1.1rem; color: #666; max-width: 520px; margin: 0 auto 32px; }
+        .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 13px 26px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+        .btn-primary { background: #1a3c2a; color: #fff; }
+        .btn-primary:hover { background: #245e3e; }
+        .btn-outline { border: 2px solid #d4d4d4; color: #1a3c2a; }
+        .btn-outline:hover { border-color: #1a3c2a; }
+        .hero-img { margin-top: 50px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.08); max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero-img img { width: 100%; display: block; }
+
+        section { padding: 90px 0; }
+        .section-label { text-align: center; font-size: 0.8rem; font-weight: 600; color: #5bbf82; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+        .section-title { text-align: center; font-size: 2rem; font-weight: 700; color: #1a3c2a; margin-bottom: 14px; }
+        .section-subtitle { text-align: center; font-size: 1.05rem; color: #777; max-width: 540px; margin: 0 auto 50px; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .feature-card { text-align: center; padding: 32px 20px; }
+        .feature-icon { font-size: 2.6rem; margin-bottom: 18px; }
+        .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: #1a3c2a; margin-bottom: 8px; }
+        .feature-card p { font-size: 0.9rem; color: #777; line-height: 1.55; }
+
+        .how-it-works { background: #f9faf8; }
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .step { text-align: center; padding: 28px 20px; }
+        .step-num { width: 44px; height: 44px; background: #1a3c2a; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 16px; }
+        .step h3 { font-size: 1rem; font-weight: 700; color: #1a3c2a; margin-bottom: 6px; }
+        .step p { font-size: 0.85rem; color: #777; }
+
+        .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .benefit-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px; background: #f9faf8; border-radius: 10px; }
+        .benefit-icon { font-size: 1.6rem; flex-shrink: 0; }
+        .benefit-item h3 { font-size: 0.95rem; font-weight: 700; color: #1a3c2a; margin-bottom: 4px; }
+        .benefit-item p { font-size: 0.85rem; color: #777; }
+
+        .testimonial { background: #1a3c2a; color: #fff; text-align: center; padding: 70px 0; }
+        .testimonial blockquote { font-size: 1.3rem; font-weight: 500; max-width: 600px; margin: 0 auto 20px; line-height: 1.6; }
+        .testimonial cite { font-style: normal; font-size: 0.85rem; color: #8fbf9f; }
+        .testimonial cite strong { color: #daf2e3; display: block; }
+
+        .contact { text-align: center; }
+        .contact-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 750px; margin: 0 auto 40px; }
+        .contact-card { padding: 24px; background: #f9faf8; border-radius: 10px; }
+        .contact-card .icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .contact-card strong { display: block; font-size: 0.85rem; color: #1a3c2a; margin-bottom: 4px; }
+        .contact-card p { font-size: 0.9rem; color: #666; }
+
+        .footer { background: #f5f5f5; padding: 50px 0 20px; font-size: 0.85rem; color: #888; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 30px; }
+        .footer-brand .logo { margin-bottom: 10px; }
+        .footer-brand p { font-size: 0.85rem; line-height: 1.6; max-width: 300px; }
+        .footer h4 { font-size: 0.8rem; font-weight: 700; color: #1a3c2a; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .footer ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .footer a { color: #888; text-decoration: none; }
+        .footer a:hover { color: #1a3c2a; }
+        .footer-bottom { border-top: 1px solid #e0e0e0; padding-top: 16px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; flex-direction: column; padding: 20px; border-bottom: 1px solid #eee; gap: 14px; }
+            .nav-links.active { display: flex; }
+            .mobile-toggle { display: block; }
+            .hero h1 { font-size: 2rem; }
+            .features-grid, .steps, .contact-cards { grid-template-columns: 1fr; }
+            .benefits-grid, .footer-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo"><span class="logo-dot"></span> FarmLink</a>
+            <ul class="nav-links" id="navMenu">
+                <li><a href="#what">What We Do</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#why">Why FarmLink</a></li>
+                <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+            </ul>
+            <button class="mobile-toggle" id="menuToggle" aria-label="Menu">☰</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-tag">Digital tools for Ethiopian coffee</div>
+            <h1>Helping coffee businesses <span>work smarter</span>, from farm to export</h1>
+            <p>FarmLink digitizes sourcing, processing, and trade so you can trace every bean back to the farmer who grew it.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn btn-primary">Request a Demo</a>
+                <a href="#what" class="btn btn-outline">Learn More</a>
+            </div>
+            <div class="hero-img">
+                <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?w=800&h=400&fit=crop" alt="Ethiopian coffee farm landscape" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </section>
+
+    <section id="what">
+        <div class="container">
+            <div class="section-label">What We Do</div>
+            <h2 class="section-title">Three tools. One platform.</h2>
+            <p class="section-subtitle">We help digitize the key stages of your coffee supply chain—without disrupting how you already work.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Digital Sourcing</h3>
+                    <p>Register farmers, record cherry purchases, and print receipts—even offline. Built for washing station gates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Processing Tracker</h3>
+                    <p>Follow lots through pulping, drying, and milling. Know your yields and inventory in real time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚢</div>
+                    <h3>Trade Ready</h3>
+                    <p>Generate export docs and traceability reports from data you already capture. EUDR compliance made simpler.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how" class="how-it-works">
+        <div class="container">
+            <div class="section-label">How It Works</div>
+            <h2 class="section-title">From farm to container in three steps</h2>
+            <p class="section-subtitle">FarmLink connects what happens at the washing station to what your buyers need to see.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3>Capture at Source</h3>
+                    <p>Clerks record purchases on the mobile app. Digital scales, auto-calculations, instant receipts.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3>Track Through Processing</h3>
+                    <p>Each lot stays linked to its growers. Monitor quality, yields, and inventory from one dashboard.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3>Share With Buyers</h3>
+                    <p>Export traceability reports, compliance docs, and shipment data—all pulled from daily operations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why">
+        <div class="container">
+            <div class="section-label">Why FarmLink</div>
+            <h2 class="section-title">Designed for how you actually work</h2>
+            <p class="section-subtitle">We spent time at washing stations before writing a single line of code.</p>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">📡</div>
+                    <div>
+                        <h3>Works Offline</h3>
+                        <p>No internet at the washing station? No problem. The app syncs when you're back online.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔗</div>
+                    <div>
+                        <h3>Traceability Built In</h3>
+                        <p>Every bean links to a farmer automatically. No extra steps, no separate system.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💳</div>
+                    <div>
+                        <h3>Faster Farmer Payments</h3>
+                        <p>Integrates with Telebirr and mobile money. Farmers get paid quicker, with full records.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📋</div>
+                    <div>
+                        <h3>EUDR & Certification Support</h3>
+                        <p>Geolocation data and compliance reports generated from your daily workflow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial">
+        <div class="container">
+            <blockquote>"We can now trace every bean to its grower and share that with our European buyers. It's become part of how we work, not an extra task."</blockquote>
+            <cite><strong>Operations Manager</strong> Ethiopian Coffee Cooperative</cite>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-label">Get in Touch</div>
+            <h2 class="section-title">Interested in learning more?</h2>
+            <p class="section-subtitle">We'd be happy to walk you through the platform and answer your questions.</p>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div class="icon">📍</div>
+                    <strong>Office</strong>
+                    <p>Addis Ababa, Ethiopia</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">✉️</div>
+                    <strong>Email</strong>
+                    <p>info@farmlink.et</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">📞</div>
+                    <strong>Phone</strong>
+                    <p>+251 90 000 0000</p>
+                </div>
+            </div>
+            <a href="#" class="btn btn-primary">Schedule a Demo</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo"><span class="logo-dot"></span> FarmLink</a>
+                    <p>Digital tools for Ethiopian coffee supply chains. Tracing every bean to its grower.</p>
+                </div>
+                <div>
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="#what">What We Do</a></li>
+                        <li><a href="#how">How It Works</a></li>
+                        <li><a href="#why">Why FarmLink</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="#">Sourcing</a></li>
+                        <li><a href="#">Processing</a></li>
+                        <li><a href="#">Trade & Export</a></li>
+                        <li><a href="#">EUDR Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 FarmLink</span>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
